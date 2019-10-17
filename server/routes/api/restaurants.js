@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
 router.post('/', async(req, res) => {
     const nhresturants = await loadPostsCollection();
     await nhresturants.insertOne({
-        text: req.body.text,
         name: req.body.name,
         address: req.body.address,
         number: req.body.number,
