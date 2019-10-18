@@ -17,7 +17,7 @@ app.use('/api/restaurants', restaurants);
 if(process.env.NODE_ENV === 'production') {
     //static folder
 
-    app.use(express.state(__dirname + '/public/'));
+    app.use(express.static(__dirname + '/public/'));
 
     //handle spa
     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
