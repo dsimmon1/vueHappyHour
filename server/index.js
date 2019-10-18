@@ -10,7 +10,18 @@ app.use(cors());
 
 const restaurants = require('./routes/api/restaurants');
 
-app.use('/api/restaurants', restaurants)
+app.use('/api/restaurants', restaurants);
+
+//handle production
+
+if(process.env.NODE_ENV === 'production') {
+    //static folder
+
+    app.use(express.state(__dirname + '/public/'));
+
+    //handle spa
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+}
 
 const port = process.env.PORT || 3000;
 

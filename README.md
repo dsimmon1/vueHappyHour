@@ -1,4 +1,4 @@
 # vueHappyHour
 
-cd into client and do yarn start
+cd into client and do npm run serve
 cd into server and do nodemon index.js
