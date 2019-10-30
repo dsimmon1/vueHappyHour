@@ -9,8 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const restaurants = require('./routes/api/restaurants');
+const key = require('./routes/api/key');
 
 app.use('/api/restaurants', restaurants);
+app.use('/api/key', key);
 
 //handle production
 
