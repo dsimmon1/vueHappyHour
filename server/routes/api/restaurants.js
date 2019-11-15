@@ -21,7 +21,7 @@ router.get('/:coords', async (req, res) => {
     let query = {
         "geometry" : {
             $geoWithin : {
-                $centerSphere : [coords, milesToRadian(1) ]
+                $centerSphere : [coords, milesToRadian(2) ]
             }
         }
     };
