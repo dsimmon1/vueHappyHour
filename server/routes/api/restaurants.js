@@ -9,6 +9,25 @@ router.get('/', async (req, res) => {
     res.send(await nhresturants.find({}).toArray());
 });
 
+router.get('/:coords', async (req, res) => {
+    const nhresturants = await loadPostsCollection();
+    let milesToRadian = function(miles){
+        var earthRadiusInMiles = 3959;
+        return miles / earthRadiusInMiles;
+    };
+    let newCoords = req.params.coords.split(",");
+    let coords = [];
+    newCoords.forEach(element => coords.push(parseFloat(element)));
+    let query = {
+        "geometry" : {
+            $geoWithin : {
+                $centerSphere : [coords, milesToRadian(1) ]
+            }
+        }
+    };
+    res.send(await nhresturants.find(query).toArray());
+});
+
 //Add Post
 
 router.post('/', async(req, res) => {
