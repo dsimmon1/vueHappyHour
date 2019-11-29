@@ -3,27 +3,59 @@ const mongodb = require('mongodb');
 
 const router = express.Router();
 
+function timeConvertor(time) {
+    var PM = time.match('PM') ||  time.match('pm')? true : false
+
+    time = time.split(':')
+    var min = time[1]
+
+    if (PM) {
+        var hour = 12 + parseInt(time[0],10)
+        if (time[2]) {
+            var sec = time[2].replace('PM', '')
+        }
+    } else {
+        var hour;
+        if (hour == 12)
+        {
+            hour = 0;
+        }
+        else {
+            hour = time[0]
+        }
+        if (time[2]) {
+            var sec = time[2].replace('AM', '')
+        }
+    }
+    let hournmin = hour * 60;
+    let total = hournmin + parseInt(min, 10);
+
+    return total
+}
 //Get Posts
 router.get('/', async (req, res) => {
     const nhresturants = await loadPostsCollection();
     res.send(await nhresturants.find({}).toArray());
 });
 
-router.get('/:coords', async (req, res) => {
+router.get('/:coords/:second', async (req, res) => {
     const nhresturants = await loadPostsCollection();
     let milesToRadian = function(miles){
         var earthRadiusInMiles = 3959;
         return miles / earthRadiusInMiles;
     };
+    let time = timeConvertor(req.params.second);
     let newCoords = req.params.coords.split(",");
     let coords = [];
     newCoords.forEach(element => coords.push(parseFloat(element)));
     let query = {
         "geometry" : {
             $geoWithin : {
-                $centerSphere : [coords, milesToRadian(3) ]
+                $centerSphere : [coords, milesToRadian(7) ]
             }
-        }
+        },
+        "Monday.0.to" : { $lte : time }
+
     };
     res.send(await nhresturants.find(query).toArray());
 });

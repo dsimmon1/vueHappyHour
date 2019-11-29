@@ -5,3 +5,8 @@ cd into server and do nodemon index.js
 npn run build to build client side
 git push heroku master
 heroku open
+
+
+Packages Used:
+https://github.com/SSENSE/vue-carousel
+https://github.com/chronotruck/vue-ctk-date-time-picker
