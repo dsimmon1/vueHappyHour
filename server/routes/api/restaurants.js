@@ -32,6 +32,19 @@ function timeConvertor(time) {
 
     return total
 }
+
+function getDay() {
+    var d = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+    return weekday[d.getDay()];
+}
 //Get Posts
 router.get('/', async (req, res) => {
     const nhresturants = await loadPostsCollection();
@@ -48,13 +61,33 @@ router.get('/:coords/:second', async (req, res) => {
     let newCoords = req.params.coords.split(",");
     let coords = [];
     newCoords.forEach(element => coords.push(parseFloat(element)));
+    let startdate = getDay() + '.0.to';
+    let endate = getDay() + '.0.from';
+    let secondStart = getDay() + '.1.to';
+    let secondEnd = getDay() + '.1.from';
+    // [startdate || secondStart] : { $lte : time },
+    // [endate || secondEnd] : { $gte : time },
     let query = {
         "geometry" : {
             $geoWithin : {
                 $centerSphere : [coords, milesToRadian(7) ]
             }
         },
-        "Monday.0.to" : { $lte : time }
+
+        $and : [
+            {
+                $or : [
+                    {[startdate] : { $lte : time }},
+                    {[secondStart] : { $lte : time }}
+                ]
+            },
+            {
+                $or : [
+                    {[endate] : { $gte : time }},
+                    {[secondEnd] : { $gte : time }}
+                ]
+            }
+        ]
 
     };
     res.send(await nhresturants.find(query).toArray());
