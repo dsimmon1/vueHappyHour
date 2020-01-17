@@ -7,21 +7,21 @@ function timeConvertor(time) {
     var PM = time.match('PM') ||  time.match('pm')? true : false
 
     time = time.split(':')
-    var min = time[1]
+    var min = time[1];
+
+    let hour;
 
     if (PM) {
-        var hour = 12 + parseInt(time[0],10)
+        hour = 12 + parseInt(time[0],10)
         if (time[2]) {
             var sec = time[2].replace('PM', '')
         }
     } else {
-        var hour;
+        hour = time[0]
+
         if (hour == 12)
         {
             hour = 0;
-        }
-        else {
-            hour = time[0]
         }
         if (time[2]) {
             var sec = time[2].replace('AM', '')
@@ -61,32 +61,24 @@ router.get('/:coords/:second', async (req, res) => {
     let newCoords = req.params.coords.split(",");
     let coords = [];
     newCoords.forEach(element => coords.push(parseFloat(element)));
-    let startdate = getDay() + '.0.to';
-    let endate = getDay() + '.0.from';
-    let secondStart = getDay() + '.1.to';
-    let secondEnd = getDay() + '.1.from';
-    // [startdate || secondStart] : { $lte : time },
-    // [endate || secondEnd] : { $gte : time },
+    let startdate = getDay() + '.hours.0.to';
+    let endate = getDay() + '.hours.0.from';
+    let secondStart = getDay() + '.hours.1.to';
+    let secondEnd = getDay() + '.hours.1.from';
+    let thirdStart = getDay() + '.hours.2.to';
+    let thirdEnd = getDay() + '.hours.2.from';
     let query = {
         "geometry" : {
             $geoWithin : {
                 $centerSphere : [coords, milesToRadian(7) ]
             }
         },
-
-        $and : [
+        $or: [{
+        $and: [ { [secondStart] : { $lte : time }, }, {  [secondEnd] : { $gte : time } } ]},
             {
-                $or : [
-                    {[startdate] : { $lte : time }},
-                    {[secondStart] : { $lte : time }}
-                ]
-            },
+        $and: [ { [startdate] : { $lte : time }, }, {  [endate] : { $gte : time } } ]},
             {
-                $or : [
-                    {[endate] : { $gte : time }},
-                    {[secondEnd] : { $gte : time }}
-                ]
-            }
+                $and: [ { [thirdStart] : { $lte : time }, }, {  [thirdEnd] : { $gte : time } } ]}
         ]
 
     };
