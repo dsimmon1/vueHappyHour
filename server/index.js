@@ -10,9 +10,11 @@ app.use(cors());
 
 const restaurants = require('./routes/api/restaurants');
 const key = require('./routes/api/key');
+const users = require('./routes/api/users');
 
 app.use('/api/restaurants', restaurants);
 app.use('/api/key', key);
+app.use('/api/users', users);
 
 //handle production
 
