@@ -6,10 +6,19 @@ const passport = require('passport');
 
 const router = express.Router();
 
-//Get Users
+//Get All Users
 router.get('/', async (req, res) => {
     const users = await loadUsers();
     res.send(await users.find({}).toArray());
+});
+
+//Get A Users
+router.get('/profile', passport.authenticate('jwt',
+    {session: false
+    }), (req, res) => {
+    return res.json({
+        user: req.user
+    })
 });
 
 //Add Post
