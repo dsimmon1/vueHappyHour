@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     res.send(await users.find({}).toArray());
 });
 
-//Get A Users
+//Get A User
 router.get('/profile', passport.authenticate('jwt',
     {session: false
     }), (req, res) => {
@@ -25,7 +25,6 @@ router.get('/profile', passport.authenticate('jwt',
 
 router.post('/register', async(req, res) => {
     const users = await loadUsers();
-    console.log(req.body);
 
     if (req.body.password !== req.body.confirm_password) {
         return res.status(400).json({
@@ -107,6 +106,7 @@ router.post('/login', async(req, res) => {
                         console.log(token);
                         return res.status(200).json({
                             token: `Bearer ${token}`,
+                            user: user,
                             success: true,
                             msg: "You are now logged in."
                         });

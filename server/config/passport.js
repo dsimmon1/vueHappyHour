@@ -12,7 +12,7 @@ module.exports = passport => {
     passport.use (
         new JwtStrategy(opts, async (jwt_payload, done) => {
             const users = await loadUsers();
-            await users.findOne({username: jwt_payload.username}).then(user => {
+            await users.findOne({id: jwt_payload.id}).then(user => {
                 if(user) {return  done(null, user)}
                 else {return done(null, false)}
             }).catch(err=> {
@@ -22,6 +22,7 @@ module.exports = passport => {
         )
     )
 }
+
 
 async function loadUsers() {
     const client = await mongodb.MongoClient.connect

@@ -6,6 +6,10 @@ const passport = require('passport');
 const app = express();
 
 // Middleware
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 app.use(bodyParser.json());
 app.use(cors());
 
