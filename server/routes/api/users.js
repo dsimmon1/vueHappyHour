@@ -7,7 +7,7 @@ const passport = require('passport');
 const router = express.Router();
 
 //Get All Users
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
     const users = await loadUsers();
     res.send(await users.find({}).toArray());
 });
