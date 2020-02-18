@@ -99,9 +99,14 @@ router.post('/', async(req, res) => {
         Thursday: req.body.Thursday,
         Friday: req.body.Friday,
         Saturday: req.body.Saturday,
-        Sunday: req.body.Sunday
+        Sunday: req.body.Sunday,
+        geometry: req.body.geometry
+    }).then ( restaurant => {
+        return res.status(201).json({
+            success: true,
+            msg: "New restaurant added."
+        })
     });
-    res.status(201).send();
 });
 
 //Delete Post
