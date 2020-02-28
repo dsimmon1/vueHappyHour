@@ -109,6 +109,14 @@ router.post('/', async(req, res) => {
     });
 });
 
+//Get specific restaurant
+
+router.get('/:id', async (req, res) => {
+    console.log(req.params.id);
+    const nhresturants = await loadPostsCollection();
+    res.send(await nhresturants.find({'_id': new mongodb.ObjectID(req.params.id)}).toArray());
+});
+
 //Delete Post
 
 router.delete('/:id', async (req, res) => {
