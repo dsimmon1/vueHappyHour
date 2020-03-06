@@ -112,7 +112,6 @@ router.post('/', async(req, res) => {
 //Get specific restaurant
 
 router.get('/:id', async (req, res) => {
-    console.log(req.params.id);
     const nhresturants = await loadPostsCollection();
     res.send(await nhresturants.find({'_id': new mongodb.ObjectID(req.params.id)}).toArray());
 });
@@ -121,8 +120,36 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const nhresturants = await loadPostsCollection();
-    await nhresturants.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
-    res.status(200).send();
+    await nhresturants.deleteOne({_id: new mongodb.ObjectID(req.params.id)}).then(restaurant => {
+        return res.status(200).json({
+            success: true,
+            msg: "Restaurant added."
+        })
+    });
+})
+
+//Update Post
+
+router.put('/:id', async (req, res) => {
+    const nhresturants = await loadPostsCollection();
+    await nhresturants.updateOne({_id: new mongodb.ObjectID(req.params.id)}, {$set: {
+            name: req.body.name,
+            address: req.body.address,
+            number: req.body.number,
+            Monday: req.body.Monday,
+            Tuesday: req.body.Tuesday,
+            Wednesday: req.body.Wednesday,
+            Thursday: req.body.Thursday,
+            Friday: req.body.Friday,
+            Saturday: req.body.Saturday,
+            Sunday: req.body.Sunday,
+            geometry: req.body.geometry
+        }}).then(restaurant => {
+        return res.status(200).json({
+            success: true,
+            msg: "Restaurant updated."
+        })
+    });
 })
 
 async function loadPostsCollection() {
