@@ -153,11 +153,17 @@ router.put('/:id', async (req, res) => {
 })
 
 async function loadPostsCollection() {
-    const client = await mongodb.MongoClient.connect
+    try {
+        const client = await mongodb.MongoClient.connect
         ('mongodb://dianna:password@ds153958.mlab.com:53958/drinx-dev', {
-        useNewUrlParser: true
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
         });
-    return client.db('drinx-dev').collection('nhresturants');
+        return client.db('drinx-dev').collection('nhresturants');
+    } catch(e) {
+        console.log('Error happend while connecting to the DB: ', e.message)
+    }
+
 }
 
 module.exports = router;

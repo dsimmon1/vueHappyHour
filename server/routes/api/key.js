@@ -11,11 +11,16 @@ router.get('/', async (req, res) => {
 
 
 async function loadApiKey() {
-    const client = await mongodb.MongoClient.connect
-    ('mongodb://dianna:password@ds153958.mlab.com:53958/drinx-dev', {
-        useNewUrlParser: true
-    });
-    return client.db('drinx-dev').collection('keys');
+    try {
+        const client = await mongodb.MongoClient.connect
+        ('mongodb://dianna:password@ds153958.mlab.com:53958/drinx-dev', {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+        });
+        return client.db('drinx-dev').collection('keys');
+    } catch(e) {
+        console.log('Error happend while connecting to the DB: ', e.message)
+    }
 }
 
 module.exports = router;
