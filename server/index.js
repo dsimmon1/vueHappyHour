@@ -2,24 +2,39 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
+const mongoose = require('mongoose');
+const routes = require("./routes");
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }));
 
 app.use(bodyParser.json());
 app.use(cors());
 
-const restaurants = require('./routes/api/restaurants');
-const key = require('./routes/api/key');
-const users = require('./routes/api/users');
+const mongoURI = 'mongodb://dianna:password@ds153958.mlab.com:53958/drinx-dev';
 
-app.use('/api/restaurants', restaurants);
-app.use('/api/key', key);
-app.use('/api/users', users);
+mongoose.Promise = global.Promise;
+mongoose.connect(
+    process.env.MONGODB_URI || mongoURI,
+    {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+    }, function(error){
+        if(error){
+            console.log(error);
+        }else{
+            console.log("Connected to the database");
+        }
+    });
+
+
+
+// Add routes, both API and view
+app.use(routes);
 
 //use the passport middleware
 
