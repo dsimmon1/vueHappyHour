@@ -1,7 +1,8 @@
 
-const mongodb = require('mongodb');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const db = require("../models");
+
 
 
 const opts = {};
@@ -11,8 +12,8 @@ opts.secretOrKey = 'yoursecret';
 module.exports = passport => {
     passport.use (
         new JwtStrategy(opts, async (jwt_payload, done) => {
-            const users = await loadUsers();
-            await users.findOne({username: jwt_payload.username}).then(user => {
+            await db.Users.find({username: jwt_payload.username}).then(user => {
+                console.log(user)
                 if(user) {return  done(null, user)}
                 else {return done(null, false)}
             }).catch(err=> {
@@ -21,13 +22,4 @@ module.exports = passport => {
             }
         )
     )
-}
-
-
-async function loadUsers() {
-    const client = await mongodb.MongoClient.connect
-    ('mongodb://dianna:password@ds153958.mlab.com:53958/drinx-dev', {
-        useNewUrlParser: true
-    });
-    return client.db('drinx-dev').collection('users');
 }
