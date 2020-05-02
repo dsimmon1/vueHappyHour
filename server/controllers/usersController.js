@@ -5,7 +5,7 @@ const passport = require('passport');
 
 
 
-// Defining methods for the pagesController
+// Defining methods for the usersController
 
 module.exports = {
     findAll: function(req, res) {
@@ -14,14 +14,16 @@ module.exports = {
             .then(dbRestaurants => res.send(dbRestaurants))
             .catch(err => res.status(422).json(err));
     },
-    findSpecificProfile: function() {
+    findSpecificProfile: function ()  {
         passport.authenticate('jwt',
             {session: false
-            }), (req, res) => {
+            },function (req, res) {
+            console.log('hello')
             return res.json({
                 user: req.user
             })
-        }
+
+        })
     },
     register: function(req, res) {
         let insertUser = req.body;
@@ -67,6 +69,7 @@ module.exports = {
         }
     },
     login: function(req, res) {
+        console.log('hello')
         db.Users
         .find({
             username: req.body.username
@@ -78,6 +81,7 @@ module.exports = {
                 });
             }
             else {
+                console.log('hello')
                 bcrypt.compare(req.body.password, user.password).then(isMatch => {
                     if(isMatch) {
                         const payload = {
@@ -103,6 +107,7 @@ module.exports = {
                         });
                     }
                 })
+
             }
         }).catch(err => res.status(422).json(err));
     },
