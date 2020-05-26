@@ -117,7 +117,7 @@ module.exports = {
     },
     remove: function(req, res) {
         db.Restaurants
-            .findById({ _id: req.params.id })
+            .findById(req.params.id)
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.status(200).json({
                 success: true,

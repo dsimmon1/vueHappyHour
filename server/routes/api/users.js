@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const db = require("../../models");
+const usersController = require("../../controllers/usersController");
+
 
 const router = express.Router();
 
@@ -13,6 +15,13 @@ router.get('/users',  (req, res) => {
         .then(dbRestaurants => res.send(dbRestaurants))
         .catch(err => res.status(422).json(err));
 });
+
+//Get Routes with id as param
+
+router.route('/:id')
+    .get(usersController.findSpecificUser)
+    .put(usersController.update)
+    .delete(usersController.remove);
 
 //Get A User
 router.get('/profile', passport.authenticate('jwt',
@@ -53,7 +62,7 @@ router.post('/register', (req, res) => {
                 bcrypt.hash(req.body.password, saltRounds, function(err, hash)  {
                     if (err) throw err;
 
-                    users.insertOne({
+                    db.Users.create({
                         name: req.body.name,
                         username: req.body.username,
                         email: req.body.email,

@@ -29,7 +29,7 @@ module.exports = {
     },
     update: function(req, res) {
         db.Pages
-            .findOneAndUpdate({ _id: req.params.id }, req.body)
+            .findOneAndUpdate({ _id: req.params.identifier }, req.body)
             .then(dbModel => res.status(200).json({
                 success: true,
                 msg: "Blog post updated."
@@ -38,7 +38,7 @@ module.exports = {
     },
     remove: function(req, res) {
         db.Pages
-            .findById({ _id: req.params.id })
+            .findById(req.params.identifier)
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.status(200).json({
                 success: true,
