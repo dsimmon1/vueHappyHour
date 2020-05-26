@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="df957654-7d2c-4975-8ed4-3a9ec746a262" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/pagesController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/pagesController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/restaurantsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/restaurantsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/usersController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/usersController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/api/pages.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/api/pages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/api/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/api/users.js" afterDir="false" />
-    </list>
+    <list default="true" id="df957654-7d2c-4975-8ed4-3a9ec746a262" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -124,7 +117,7 @@
       <workItem from="1588831703390" duration="11933000" />
       <workItem from="1590124721078" duration="7411000" />
       <workItem from="1590218151639" duration="8582000" />
-      <workItem from="1590348244372" duration="2563000" />
+      <workItem from="1590348244372" duration="2989000" />
     </task>
     <servers />
   </component>
